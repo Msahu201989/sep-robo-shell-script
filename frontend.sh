@@ -21,7 +21,7 @@ echo downloading nginx web content
  mv frontend-main/localhost.conf /etc/nginx/default.d/roboshop.conf &>>$LOG_FILE
 
 
- echo starting Nginx Service
+echo starting Nginx Service
 systemctl enable nginx &>>$LOG_FILE
 systemctl restart nginx &>>$LOG_FILE
- echo status = $?
+echo status = $?
