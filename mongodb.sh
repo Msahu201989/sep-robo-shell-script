@@ -29,10 +29,10 @@ echo status = $?
 cd mongodb-main
 
 echo "Load CataLogues Service Schema"
-mongo < catalogue.js
+mongo < catalogue.js &>>LOG_FILE
 echo status = $?
 
 echo "Load Users Service Schema"
-mongo < users.js
+mongo < users.js &>>LOG_FILE
 echo status = $?
 
