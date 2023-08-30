@@ -23,6 +23,7 @@ echo status = $?
 
 mv catalogue-main catalogue
 cd /home/roboshop/catalogue
+echo status = $?
 
 echo "Installing Nodejs Dependencies"
 npm install &>>LOG_FILE
