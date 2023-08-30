@@ -32,6 +32,7 @@ echo status = $?
 
 echo "Setup Catalogue Service"
 mv /home/roboshop/catalogue/systemd.service /etc/systemd/system/catalogue.service &>>LOG_FILE
+echo status = $?
 
 systemctl daemon-reload &>>LOG_FILE
  systemctl start catalogue &>>LOG_FILE
