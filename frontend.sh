@@ -18,7 +18,7 @@ echo downloading nginx web content
 
  mv frontend-main/static/* . &>>/tmp/frontend
  mv frontend-main/localhost.conf /etc/nginx/default.d/roboshop.conf &>>/tmp/frontend
- echo status = $?
+
 
  echo starting Nginx Service
 systemctl enable nginx &>>/tmp/frontend
