@@ -65,6 +65,8 @@ else
   echo status = FAILURE
   exit 1
   fi
+
+echo "Moving App data"
 mv catalogue-main catalogue
 cd /home/roboshop/catalogue
 if [ $? -eq 0 ]; then
