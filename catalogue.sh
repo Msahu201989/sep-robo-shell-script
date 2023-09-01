@@ -9,9 +9,9 @@ if [ $ID -ne 0 ]; then
 echo "Setup NodeJS REPO"
 curl --silent --location https://rpm.nodesource.com/setup_16.x | sudo bash - &>>$LOG_FILE
 if [ $? -eq 0 ]; then
-  echo status = SUCCESS
+  echo -e status = "\e[32mSUCCESS\e[0m"
 else
-  echo status = FAILURE
+  echo -e status = "\e[31mFAILURE\e[0m"
   exit 1
   fi
 
@@ -19,9 +19,9 @@ else
 echo "INSTALL NODEJS"
 yum install nodejs -y &>>$LOG_FILE
 if [ $? -eq 0 ]; then
-  echo status = SUCCESS
+  echo -e status = "\e[32mSUCCESS\e[0m"
 else
-  echo status = FAILURE
+  echo -e status = "\e[31mFAILURE\e[0m"
   exit 1
   fi
 
@@ -30,9 +30,9 @@ if [ $? -ne 0 ]; then
   echo "Adding Roboshop User"
 useradd roboshop &>>$LOG_FILE
 if [ $? -eq 0 ]; then
-  echo status = SUCCESS
+  echo -e status = "\e[32mSUCCESS\e[0m"
 else
-  echo status = FAILURE
+  echo -e status = "\e[31mFAILURE\e[0m"
   exit 1
   fi
  fi
@@ -40,9 +40,9 @@ else
 echo "Download Catalogue Application Code"
 curl -s -L -o /tmp/catalogue.zip "https://github.com/roboshop-devops-project/catalogue/archive/main.zip" &>>$LOG_FILE
 if [ $? -eq 0 ]; then
-  echo status = SUCCESS
+  echo -e status = "\e[32mSUCCESS\e[0m"
 else
-  echo status = FAILURE
+  echo -e status = "\e[31mFAILURE\e[0m"
   exit 1
   fi
 
@@ -51,18 +51,18 @@ cd /home/roboshop
 echo "clean old App content"
 rm -rf catalogue &>>$LOG_FILE
 if [ $? -eq 0 ]; then
-  echo status = SUCCESS
+  echo -e status = "\e[32mSUCCESS\e[0m"
 else
-  echo status = FAILURE
+  echo -e status = "\e[31mFAILURE\e[0m"
   exit 1
   fi
 
 echo "Extracting Catalogue Application code"
 unzip /tmp/catalogue.zip &>>$LOG_FILE
 if [ $? -eq 0 ]; then
-  echo status = SUCCESS
+  echo -e status = "\e[32mSUCCESS\e[0m"
 else
-  echo status = FAILURE
+  echo -e status = "\e[31mFAILURE\e[0m"
   exit 1
   fi
 
@@ -70,18 +70,18 @@ echo "Moving App data"
 mv catalogue-main catalogue
 cd /home/roboshop/catalogue
 if [ $? -eq 0 ]; then
-  echo status = SUCCESS
+  echo -e status = "\e[32mSUCCESS\e[0m"
 else
-  echo status = FAILURE
+  echo -e status = "\e[31mFAILURE\e[0m"
   exit 1
   fi
 
 echo "Installing Nodejs Dependencies"
 npm install &>>$LOG_FILE
 if [ $? -eq 0 ]; then
-  echo status = SUCCESS
+  echo -e status = "\e[32mSUCCESS\e[0m"
 else
-  echo status = FAILURE
+  echo -e status = "\e[31mFAILURE\e[0m"
   exit 1
   fi
 
@@ -90,9 +90,9 @@ else
 echo "Setup Catalogue Service"
 mv /home/roboshop/catalogue/systemd.service /etc/systemd/system/catalogue.service &>>$LOG_FILE
 if [ $? -eq 0 ]; then
-  echo status = SUCCESS
+  echo -e status = "\e[32mSUCCESS\e[0m"
 else
-  echo status = FAILURE
+  echo -e status = "\e[31mFAILURE\e[0m"
   exit 1
   fi
 
