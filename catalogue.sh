@@ -2,9 +2,10 @@ LOG_FILE=/tmp/catalogue
 echo "Setup NodeJS REPO"
 curl --silent --location https://rpm.nodesource.com/setup_16.x | sudo bash - &>>$LOG_FILE
 if [ $? -eq 0 ]; then
-  echo status = SUCESS
+  echo status = SUCCESS
 else
   echo status = FAILURE
+  exit
   fi
 
 
@@ -12,19 +13,21 @@ echo "INSTALL NODEJS"
 yum install nodejs -y &>>$LOG_FILE
 
 echo "Creating Roboshop USER"
-useradd roboshop
+useradd roboshop &>>$LOG_FILE
 if [ $? -eq 0 ]; then
-  echo status = SUCESS
+  echo status = SUCCESS
 else
   echo status = FAILURE
+  exit
   fi
 
 echo "Download Catalogue Application Code"
 curl -s -L -o /tmp/catalogue.zip "https://github.com/roboshop-devops-project/catalogue/archive/main.zip" &>>$LOG_FILE
 if [ $? -eq 0 ]; then
-  echo status = SUCESS
+  echo status = SUCCESS
 else
   echo status = FAILURE
+  exit
   fi
 
 cd /home/roboshop
@@ -32,24 +35,27 @@ cd /home/roboshop
 echo "Extracting Catalogue Application code"
 unzip /tmp/catalogue.zip &>>$LOG_FILE
 if [ $? -eq 0 ]; then
-  echo status = SUCESS
+  echo status = SUCCESS
 else
   echo status = FAILURE
+  exit
   fi
 mv catalogue-main catalogue
 cd /home/roboshop/catalogue
 if [ $? -eq 0 ]; then
-  echo status = SUCESS
+  echo status = SUCCESS
 else
   echo status = FAILURE
+  exit
   fi
 
 echo "Installing Nodejs Dependencies"
 npm install &>>$LOG_FILE
 if [ $? -eq 0 ]; then
-  echo status = SUCESS
+  echo status = SUCCESS
 else
   echo status = FAILURE
+  exit
   fi
 
 #MONGO_DNSNAME
@@ -57,9 +63,10 @@ else
 echo "Setup Catalogue Service"
 mv /home/roboshop/catalogue/systemd.service /etc/systemd/system/catalogue.service &>>$LOG_FILE
 if [ $? -eq 0 ]; then
-  echo status = SUCESS
+  echo status = SUCCESS
 else
   echo status = FAILURE
+  exit
   fi
 
 systemctl daemon-reload &>>$LOG_FILE
