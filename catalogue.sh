@@ -5,7 +5,7 @@ if [ $? -eq 0 ]; then
   echo status = SUCCESS
 else
   echo status = FAILURE
-  exit
+  exit 1
   fi
 
 
@@ -18,7 +18,7 @@ if [ $? -eq 0 ]; then
   echo status = SUCCESS
 else
   echo status = FAILURE
-  exit
+  exit 1
   fi
 
 echo "Download Catalogue Application Code"
@@ -27,7 +27,7 @@ if [ $? -eq 0 ]; then
   echo status = SUCCESS
 else
   echo status = FAILURE
-  exit
+  exit 1
   fi
 
 cd /home/roboshop
@@ -38,7 +38,7 @@ if [ $? -eq 0 ]; then
   echo status = SUCCESS
 else
   echo status = FAILURE
-  exit
+  exit 1
   fi
 mv catalogue-main catalogue
 cd /home/roboshop/catalogue
@@ -46,7 +46,7 @@ if [ $? -eq 0 ]; then
   echo status = SUCCESS
 else
   echo status = FAILURE
-  exit
+  exit 1
   fi
 
 echo "Installing Nodejs Dependencies"
@@ -55,7 +55,7 @@ if [ $? -eq 0 ]; then
   echo status = SUCCESS
 else
   echo status = FAILURE
-  exit
+  exit 1
   fi
 
 #MONGO_DNSNAME
@@ -66,7 +66,7 @@ if [ $? -eq 0 ]; then
   echo status = SUCCESS
 else
   echo status = FAILURE
-  exit
+  exit 1
   fi
 
 systemctl daemon-reload &>>$LOG_FILE
