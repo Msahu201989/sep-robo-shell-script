@@ -25,7 +25,9 @@ else
   exit 1
   fi
 
-echo "Creating Roboshop USER"
+id roboshop &>>$LOG_FILE
+if [ $? -ne 0 ]; then
+  echo "Adding Roboshop User"
 useradd roboshop &>>$LOG_FILE
 if [ $? -eq 0 ]; then
   echo status = SUCCESS
