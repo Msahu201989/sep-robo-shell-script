@@ -11,6 +11,12 @@ else
 
 echo "INSTALL NODEJS"
 yum install nodejs -y &>>$LOG_FILE
+if [ $? -eq 0 ]; then
+  echo status = SUCCESS
+else
+  echo status = FAILURE
+  exit 1
+  fi
 
 echo "Creating Roboshop USER"
 useradd roboshop &>>$LOG_FILE
