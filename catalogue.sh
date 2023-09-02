@@ -28,7 +28,7 @@ rm -rf catalogue &>>$LOG_FILE
 StatusCheck $?
 
 echo "Extracting Catalogue Application code"
-unzip /tmp/catalogue.zip &>>$LOG_FILE
+unzip -o /tmp/catalogue.zip &>>$LOG_FILE
 StatusCheck $?
 
 echo "Moving App data"
