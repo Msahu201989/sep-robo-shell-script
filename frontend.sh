@@ -1,6 +1,6 @@
 LOG_FILE=/tmp/frontend
 
-source comman.sh
+source common.sh
 
 echo installing Nginx
 yum install nginx -y &>>$LOG_FILE

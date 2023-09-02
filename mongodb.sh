@@ -1,6 +1,6 @@
 LOG_FILE=/tmp/mogodb
 
-source comman.sh
+source common.sh
 
 echo "Setting up MogoDB Repo"
 curl -s -o /etc/yum.repos.d/mongodb.repo https://raw.githubusercontent.com/roboshop-devops-project/mongodb/main/mongo.repo &>>LOG_FILE

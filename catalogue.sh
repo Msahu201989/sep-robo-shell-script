@@ -1,6 +1,6 @@
 LOG_FILE=/tmp/catalogue
 
-source comman.sh
+source common.sh
 
 
 echo "Setup NodeJS REPO"
