@@ -12,30 +12,30 @@ StatusCheck $?
 
 echo "Update MongoDB Listen Address"
 sed -e 's/127.0.0.1/0.0.0.0/' /etc/mongod.conf &>>LOG_FILE
-StatusCheck $? = $?
+StatusCheck $?
 
 
 echo "Starting Mongodb Service"
  systemctl enable mongod &>>LOG_FILE
  systemctl restart mongod &>>LOG_FILE
- StatusCheck $? = $?
+ StatusCheck $?
 
 echo "Downloading Mongo Schema"
 curl -s -L -o /tmp/mongodb.zip "https://github.com/roboshop-devops-project/mongodb/archive/main.zip"
-StatusCheck $? = $?
+StatusCheck $?
 
 cd /tmp
 echo "Extratcing Schema File"
 unzip mongodb.zip &>>LOG_FILE
-StatusCheck $? = $?
+StatusCheck $?
 
 cd mongodb-main
 
 echo "Load CataLogues Service Schema"
 mongo < catalogue.js &>>LOG_FILE
-StatusCheck $? = $?
+StatusCheck $?
 
 echo "Load Users Service Schema"
 mongo < users.js &>>LOG_FILE
-StatusCheck $? = $?
+StatusCheck $?
 
