@@ -6,20 +6,9 @@ echo "Setup yum Repo for Redis"
 curl -L https://raw.githubusercontent.com/roboshop-devops-project/redis/main/redis.repo -o /etc/yum.repos.d/redis.repo &>>$LOG_FILE
 StatusCheck $?
 
+
 echo "Installing Redis"
- dnf install https://rpms.remirepo.net/enterprise/remi-release-8.rpm -y &>>$LOG_FILE
- StatusCheck $?
-
- echo "Enable module Redis"
- dnf module enable redis:remi-6.2 -y &>>$LOG_FILE
-  StatusCheck $?
-
-  echo "Installing Redis"
-   yum install redis -y &>>$LOG_FILE
-  StatusCheck $?
-
-#echo "Installing Redis"
-#yum install redis-6.2.11 -y &>>$LOG_FILE
+yum install redis-6.2.11 -y &>>$LOG_FILE
 
 
 
