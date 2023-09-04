@@ -8,7 +8,7 @@ StatusCheck $?
 
 
 echo "Installing Redis"
-yum install redis-6.2.11 -y &>>$LOG_FILE
+yum install redis-7.2.0 -y &>>$LOG_FILE
 StatusCheck $?
 
 
