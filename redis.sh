@@ -7,8 +7,21 @@ curl -L https://raw.githubusercontent.com/roboshop-devops-project/redis/main/red
 StatusCheck $?
 
 echo "Installing Redis"
-yum install redis-6.2.11 -y &>>$LOG_FILE
-StatusCheck $?
+ dnf install https://rpms.remirepo.net/enterprise/remi-release-8.rpm -y &>>$LOG_FILE
+ StatusCheck $?
+
+ echo "Enable module Redis"
+ dnf module enable redis:remi-6.2 -y &>>$LOG_FILE
+  StatusCheck $?
+
+  echo "Installing Redis"
+   yum install redis -y &>>$LOG_FILE
+  StatusCheck $?
+
+#echo "Installing Redis"
+#yum install redis-6.2.11 -y &>>$LOG_FILE
+
+
 
 echo "Update Redis IP in Config from 127.0.0.1 to 0.0.0.0"
 
