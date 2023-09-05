@@ -45,7 +45,7 @@ NODEJS() {
    StatusCheck $?
 
    echo "Moving App data"
-   mv user-main ${COMPONENT} &>>$LOG_FILE
+   mv ${COMPONENT}-main ${COMPONENT} &>>$LOG_FILE
    cd /home/roboshop/${COMPONENT}
    StatusCheck $?
 
