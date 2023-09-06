@@ -14,6 +14,14 @@ echo "Install MYSQL"
  systemctl restart mysqld &>>$LOG_FILE
  StatusCheck $?
 
+echo "seting up password"
+DEFAULT_PASSWORD=$(grep 'A temporary password' /var/log/mysqld.log | awk '{print $NF}')
+statuscheck $?
+
+echo "SET PASSWORD FOR 'root'@'localhost' = PASSWORD
+('${ROBOSHOP_MYSQL_PASSWORD}');
+FLUSH PRIVILEGES;" >/tmp/root-pass.sql
+
 # grep temp /var/log/mysqld.log
 #
 ##Next, We need to change the default root password in order to start using the database service. Use password RoboShop@1 or any other as per your choice. Rest of the options you can choose No
