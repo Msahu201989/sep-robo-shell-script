@@ -13,6 +13,51 @@ else
   fi
 }
 
+APP_PREREQ() {
+  id roboshop &>>$LOG_FILE
+    if [ $? -ne 0 ]; then
+     echo "Adding Roboshop User"
+    useradd roboshop &>>$LOG_FILE
+    StatusCheck $?
+     fi
+
+
+     echo "Download ${COMPONENT} Application Code"
+     curl -s -L -o /tmp/${COMPONENT}.zip "https://github.com/roboshop-devops-project/${COMPONENT}/archive/main.zip" &>>$LOG_FILE
+     StatusCheck $?
+
+     cd /home/roboshop
+     echo "clean old App content"
+     rm -rf ${COMPONENT} &>>$LOG_FILE
+     StatusCheck $?
+
+     echo "Extracting ${COMPONENT} Application code"
+     unzip -o /tmp/${COMPONENT}.zip &>>$LOG_FILE
+     StatusCheck $?
+
+     echo "Moving App data"
+     mv ${COMPONENT}-main ${COMPONENT} &>>$LOG_FILE
+     cd /home/roboshop/${COMPONENT}
+     StatusCheck $?
+
+}
+
+SYSTEMD_SETUP() {
+     echo "Updating SystemD service File"
+     sed -i -e 's/Redis_ENDPOINT/redis.roboshop.internal/' -e 's/MONGO_ENDPOINT/mongodb.roboshop.internal/' -e 's/CATALOGUE_ENDPOINT/catalogue.roboshop.internal/' -e 's/MONGO_DNSNAME/mongodb.roboshop.internal/'  -e 's/CARTENDPOINT/cart.roboshop.internal/' -e 's/DBHOST/mysql.roboshop.internal/' /home/roboshop/${COMPONENT}/systemd.service &>>${LOG_FILE}
+     StatusCheck $?
+
+      echo "Setup ${COMPONENT} Service"
+      mv /home/roboshop/${COMPONENT}/systemd.service /etc/systemd/system/${COMPONENT}.service &>>${LOG_FILE}
+      StatusCheck $?
+
+      echo "Start ${COMPONENT} service"
+       systemctl daemon-reload &>>${LOG_FILE}
+       systemctl start ${COMPONENT} &>>${LOG_FILE}
+       systemctl enable ${COMPONENT} &>>${LOG_FILE}
+       StatusCheck $?
+}
+
 NODEJS() {
 
   echo "Downlod NodeJs Component"
@@ -23,48 +68,35 @@ NODEJS() {
    yum install nodejs -y &>>$LOG_FILE
    StatusCheck $?
 
-  id roboshop &>>$LOG_FILE
-  if [ $? -ne 0 ]; then
-   echo "Adding Roboshop User"
-  useradd roboshop &>>$LOG_FILE
-  StatusCheck $?
-   fi
 
-
-   echo "Download ${COMPONENT} Application Code"
-   curl -s -L -o /tmp/${COMPONENT}.zip "https://github.com/roboshop-devops-project/${COMPONENT}/archive/main.zip" &>>$LOG_FILE
-   StatusCheck $?
-
-   cd /home/roboshop
-   echo "clean old App content"
-   rm -rf ${COMPONENT} &>>$LOG_FILE
-   StatusCheck $?
-
-   echo "Extracting ${COMPONENT} Application code"
-   unzip -o /tmp/${COMPONENT}.zip &>>$LOG_FILE
-   StatusCheck $?
-
-   echo "Moving App data"
-   mv ${COMPONENT}-main ${COMPONENT} &>>$LOG_FILE
-   cd /home/roboshop/${COMPONENT}
-   StatusCheck $?
+ APP_PREREQ                  # Calling funtion inside funtion We have Same requirement for nodejs & java like create user and all
 
    echo "Installing Nodejs Dependencies"
    npm install &>>$LOG_FILE
    StatusCheck $?
 
-   echo "Updating SystemD service File"
-   sed -i -e 's/Redis_ENDPOINT/redis.roboshop.internal/' -e 's/MONGO_ENDPOINT/mongodb.roboshop.internal/' -e 's/CATALOGUE_ENDPOINT/catalogue.roboshop.internal/' -e 's/MONGO_DNSNAME/mongodb.roboshop.internal/' /home/roboshop/${COMPONENT}/systemd.service &>>${LOG_FILE}
-   StatusCheck $?
+ SYSTEMD_SETUP                 # calling function inside funtion cause systemd is common in both Java & Nodejs
 
-    echo "Setup ${COMPONENT} Service"
-    mv /home/roboshop/${COMPONENT}/systemd.service /etc/systemd/system/${COMPONENT}.service &>>${LOG_FILE}
-    StatusCheck $?
+}
 
-    echo "Start ${COMPONENT} service"
-     systemctl daemon-reload &>>${LOG_FILE}
-     systemctl start ${COMPONENT} &>>${LOG_FILE}
-     systemctl enable ${COMPONENT} &>>${LOG_FILE}
-     StatusCheck $?
+JAVA () {
+
+  echo "Install Maven"
+  yum install maven -y &>>${LOG_FILE}
+  StatusCheck $?
+
+  APP_PREREQ
+
+ echo "Download Dependencies & Make Package"
+ mvn clean package &>>${LOG_FILE}
+ mv target/${COMPONENT}-1.0.jar ${COMPONENT}.jar &>>${LOG_FILE}
+ StatusCheck $?
+
+ SYSTEMD_SETUP                # calling function inside funtion cause systemd is common in both Java & Nodejs
+
+
+
+
+
 
 }
