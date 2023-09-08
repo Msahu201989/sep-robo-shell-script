@@ -98,7 +98,7 @@ JAVA () {
 
 PYTHON () {
 
-  echo "Install Puthon 3"
+  echo "Install Python 3"
   yum install python36 gcc python3-devel -y &>>${LOG_FILE}
   StatusCheck $?
 
@@ -108,5 +108,14 @@ PYTHON () {
   echo "Install Python dependency for APP"
   pip3 install -r requirements.txt &>>${LOG_FILE}
   StatusCheck $?
+
+     APP_UID=$(id -u roboshop)
+     APP_GID=$(id -g roboshop)
+
+    echo "Update Payment configuration file"
+    sed -i -e "/uid/ c uid = ${APP_UID}" -e "/gid/ c gid = ${APP_GID}" /home/roboshop/${COMPONENT}/${COMPONENT}.ini &>>${LOG_FILE}
+    StatusCheck $?
+
+    SYSTEMD_SETUP
 
 }
