@@ -94,9 +94,19 @@ JAVA () {
 
  SYSTEMD_SETUP                # calling function inside funtion cause systemd is common in both Java & Nodejs
 
+}
 
+PYTHON () {
 
+  echo "Install Puthon 3"
+  yum install python36 gcc python3-devel -y &>>${LOG_FILE}
+  StatusCheck $?
 
+  APP_PREREQ
 
+  cd /home/roboshop/${COMPONENT}
+  echo "Install Python dependency for APP"
+  pip3 install -r requirements.txt &>>${LOG_FILE}
+  StatusCheck $?
 
 }

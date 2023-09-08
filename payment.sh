@@ -1,4 +1,8 @@
-COMPONENT=
+COMPONENT=payment
+LOG_FILE=/tmp/${COMPONENT}
+
+source common.sh
+PYTHON
 
 
 # yum install python36 gcc python3-devel -y
